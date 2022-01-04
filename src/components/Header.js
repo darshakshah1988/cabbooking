@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
+  // const token = window.localStorage.getItem('token');
   return (
     <>
       <div className="header">
@@ -21,7 +22,7 @@ const Header = () => {
               <Link to="/">Cabs</Link>
             </li>
             <li>
-              <Link to="/dashboard/reports">Dashboard</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
               <a href="/">About us</a>
@@ -31,7 +32,6 @@ const Header = () => {
 
         <div className="header__container">
           {/* TODO: Here goes the user image className="header__user-image" */}
-          <h3 className="header__username">My account</h3>
         </div>
       </div>
 

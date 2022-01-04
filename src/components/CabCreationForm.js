@@ -10,7 +10,7 @@ const CabCreationForm = ({ setCabCreation }) => {
 
   const handleCabFormSubmit = async (e) => {
     e.preventDefault();
-    await pmlAPI.post(`/api/v1/cabs`, {
+    await pmlAPI.post(`/api/cab`, {
       carModel,
       luggage,
       seats,
@@ -51,7 +51,9 @@ const CabCreationForm = ({ setCabCreation }) => {
             onChange={(e) => setLuggage(e.target.value)}
           />
         </div>
+      </div>
 
+      <div className="cab-form__container">
         <div className="cab-form__input">
           <label htmlFor="carSeats">
             <p className="p p--1">Available seats</p>
@@ -64,7 +66,9 @@ const CabCreationForm = ({ setCabCreation }) => {
             onChange={(e) => setSeats(e.target.value)}
           />
         </div>
+      </div>
 
+      <div className="cab-form__container">
         <div className="cab-form__input">
           <label htmlFor="price">
             <p className="p p--1">Price per hour</p>

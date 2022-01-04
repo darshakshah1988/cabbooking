@@ -10,7 +10,12 @@ const CabCard = ({
   price,
   cabImage,
   dashboardDisplay,
+  distance,
 }) => {
+  var total;
+  if (!dashboardDisplay) {
+    total = (price * distance) / 1000;
+  }
   return (
     <div className="cab-card">
       <div className="cab-card__image">
@@ -60,9 +65,8 @@ const CabCard = ({
       </div>
 
       <div className="cab-card__price">
-        <h2 className="h2--2">
-          ₹ {price} {dashboardDisplay && "per hour"}
-        </h2>
+        {dashboardDisplay && <h2 className="h2--2">₹ {price} per hour</h2>}
+        {!dashboardDisplay && <h2 className="h2--2">₹ {total.toFixed(0)}</h2>}
         {!dashboardDisplay && (
           <>
             <button className="btn btn--1">Book Now</button>

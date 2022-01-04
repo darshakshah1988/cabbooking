@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-
+import Skeleton from "react-loading-skeleton";
 // Router
 import { useNavigate } from "react-router-dom";
 
@@ -13,19 +13,31 @@ import pmlAPI from "../api/pmlAPI";
 import CabCard from "./CabCard";
 
 const CabsScreen = () => {
-  const [{ pickup, dropoff, date, passengers }] = useRideValue();
+  const [{ pickup, dropoff, date, passengers, distance }] = useRideValue();
   const [cabs, setCabs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const onPageLoad = useCallback(async () => {
-    let cabs = await pmlAPI.get(
-      `/api/v1/cabs?seats[gte]=${
-        passengers.adults + passengers.children + passengers.infants < 4
-          ? 4
-          : passengers.adults + passengers.children + passengers.infants
-      }&sort=seats`
-    );
-    setCabs(cabs.data.data.data); // TODO: Change in production
+  const onPageLoad = useCallback(() => {
+    pmlAPI
+      .get(
+        `/api/cab?seats[gte]=${
+          passengers.adults + passengers.children + passengers.infants < 4
+            ? 4
+            : passengers.adults + passengers.children + passengers.infants
+        }&sort=seats`
+      )
+      .then((response) => {
+        setCabs(response.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
+    // TODO: Change in production
     // setCabs(cabs.data.data);
   }, [passengers]);
 
@@ -42,6 +54,7 @@ const CabsScreen = () => {
         luggage={cab.luggage}
         price={cab.price}
         cabImage={cab.cabImage}
+        distance={distance}
       />
     ));
 
@@ -125,8 +138,46 @@ const CabsScreen = () => {
             </div>
           </div>
 
-          {renderCabs()}
-          {cabs.length === 0 && <h1>No cabs found</h1>}
+          {!loading && renderCabs()}
+          {!loading && cabs.length === 0 && <h1>No cabs found</h1>}
+          {loading && (
+            <>
+              <div className="cab-card">
+                <div className="cab-card__image">
+                  <Skeleton height="200px" width="200px" />
+                </div>
+
+                <div className="cab-card__details">
+                  <h2 className="h2--2">
+                    <Skeleton count={3} />
+                  </h2>
+                </div>
+
+                <div className="cab-card__price">
+                  <h2 className="h2--2">
+                    <Skeleton count={2} />
+                  </h2>
+                </div>
+              </div>
+              <div className="cab-card">
+                <div className="cab-card__image">
+                  <Skeleton height="200px" width="200px" />
+                </div>
+
+                <div className="cab-card__details">
+                  <h2 className="h2--2">
+                    <Skeleton count={3} />
+                  </h2>
+                </div>
+
+                <div className="cab-card__price">
+                  <h2 className="h2--2">
+                    <Skeleton count={2} />
+                  </h2>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

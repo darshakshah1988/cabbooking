@@ -1,7 +1,7 @@
 export const initialState = {
   pickup: {},
   dropoff: {},
-  date: null,
+  date: new Date(),
   passengers: {
     adults: 0,
     children: 0,

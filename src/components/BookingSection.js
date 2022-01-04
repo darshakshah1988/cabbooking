@@ -51,14 +51,14 @@ const Booking = () => {
     }
 
     /* TODO: Make a post request to build a new ride */
-    pmlAPI.post("/api/v1/rides", {
-      type: selectedOption,
-      from: pickup.place_name,
-      to: dropoff.place_name,
-      airportTransfer: airportAction,
-      pickupDate: date,
-      passengers: passengers.adults + passengers.children + passengers.infants,
-    });
+    // pmlAPI.post("/api/v1/rides", {
+    //   type: selectedOption,
+    //   from: pickup.place_name,
+    //   to: dropoff.place_name,
+    //   airportTransfer: airportAction,
+    //   pickupDate: date,
+    //   passengers: passengers.adults + passengers.children + passengers.infants,
+    // });
 
     // Navigate to the next screen if the pickup and a date are selected
     if (Object.keys(pickup).length > 0 && date) navigate("/cabs");
@@ -120,7 +120,7 @@ const Booking = () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.routes) {
-            console.log(data.routes[0].duration);
+            console.log(data);
             dispatch({
               type: "ADD_DURATION",
               duration: data.routes[0]?.duration,
@@ -239,7 +239,7 @@ const Booking = () => {
           <h2 className="h2 ">Pick-up Date & Time</h2>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <DateTimePicker
-              // value={date}
+              value={date}
               onChange={(e) => dispatch({ type: "ADD_DATE", date: e })}
             />
           </MuiPickersUtilsProvider>

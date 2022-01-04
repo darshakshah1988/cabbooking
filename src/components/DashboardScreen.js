@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 
 import DashBoardGraphs from "./DashBoardGraphs";
 import DashboardCabs from "./DashboardCabs";
+import International from "./International";
 
 const DashboardScreen = () => {
   return (

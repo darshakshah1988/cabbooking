@@ -11,7 +11,9 @@
     // width < 600px
     flex-direction: column;
   }
-
+  &__image img {
+    width: 200px;
+  }
   &__details {
     flex: 3;
     display: flex;

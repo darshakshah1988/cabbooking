@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import "./scss/App.scss";
 
 // Router
@@ -9,15 +9,22 @@ import Header from "./components/Header";
 import BookingSection from "./components/BookingSection";
 import Benefits from "./components/Benefits";
 import TopRoutes from "./components/TopRoutes";
+import International from "./components/International";
 import Why from "./components/Why";
 import Rates from "./components/Rates";
 import Footer from "./components/Footer";
-
+import "react-loading-skeleton/dist/skeleton.css";
 // Pages
 import CabsScreen from "./components/CabsScreen";
 import DashboardScreen from "./components/DashboardScreen";
+import Login from './components/login'
+import PrivateRoute from "./components/privateRoute";
 
 function App() {
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    setToken(window.localStorage.getItem('token'));
+  }, [])
   return (
     <BrowserRouter>
       <Header />
@@ -29,6 +36,7 @@ function App() {
               <BookingSection />
               <Benefits />
               <TopRoutes />
+              <International />
               <Why />
               <Rates />
               <Footer />
@@ -36,7 +44,10 @@ function App() {
           }
         ></Route>
         <Route path="/cabs" element={<CabsScreen />}></Route>
-        <Route path="/dashboard/*" element={<DashboardScreen />}></Route>
+
+          <Route path="/dashboard/*" element={<PrivateRoute><DashboardScreen /></PrivateRoute>}></Route>
+        
+        <Route path="/login" element={<Login setToken={setToken}/>}></Route>
       </Routes>
     </BrowserRouter>
   );
